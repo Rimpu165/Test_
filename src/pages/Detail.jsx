@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { addtocart } from "../slice/cartslice";
 
 const Detail = () => {
   const { id } = useParams();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const naviagte=useNavigate()
+  const dispatch=useDispatch()
 
   useEffect(() => {
     const full = async () => {
@@ -146,7 +149,9 @@ const Detail = () => {
                 Buy Now
               </button>
 
-              <button className="flex-1 rounded-lg border-2 border-indigo-600 px-6 py-3 font-semibold text-indigo-600 transition hover:bg-indigo-50">
+              <button onClick={()=>{
+                dispatch(addtocart(data))
+              }}  className="flex-1 rounded-lg border-2 border-indigo-600 px-6 py-3 font-semibold text-indigo-600 transition hover:bg-indigo-50">
                 Add to Cart
               </button>
             </div>

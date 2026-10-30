@@ -1,24 +1,10 @@
 
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { removetocart } from '../slice/cartslice';
 
 const Cart = () => {
-  const cartItems = [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      price: 1999,
-      quantity: 1,
-      image: 'https://placehold.co/120x120?text=Headphones',
-    },
-    {
-      id: 2,
-      name: 'Smart Watch',
-      price: 2499,
-      quantity: 2,
-      image: 'https://placehold.co/120x120?text=Watch',
-    },
-  ];
-
+  const cartItems =useSelector((state)=>state.cart.cartitem)
   const totalItems = cartItems.reduce(
     (sum, item) => sum + item.quantity,
     0
@@ -28,6 +14,8 @@ const Cart = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const dispatc=useDispatch()
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-10">
@@ -49,14 +37,14 @@ const Cart = () => {
                 className="flex flex-col gap-4 rounded-xl bg-white p-5 shadow-sm sm:flex-row sm:items-center"
               >
                 <img
-                  src={item.image}
+                  src={item.images[0]}
                   alt={item.name}
                   className="h-28 w-28 rounded-lg object-cover"
                 />
 
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold text-gray-800">
-                    {item.name}
+                    {item.title}
                   </h2>
 
                   <p className="mt-2 text-gray-500">
@@ -74,9 +62,7 @@ const Cart = () => {
                   </p>
 
                   <button
-                    onClick={() =>
-                      alert(`${item.name} removed from cart`)
-                    }
+                    onClick={()=>dispatc(removetocart(item.id))}
                     className="mt-3 text-sm font-medium text-red-500 hover:text-red-700"
                   >
                     Remove
